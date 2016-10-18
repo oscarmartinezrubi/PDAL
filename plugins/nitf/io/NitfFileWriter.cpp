@@ -243,7 +243,11 @@ void NitfFileWriter::write()
     writer.prepare(output_io, record);
 
     ::nitf::SegmentWriter sWriter = writer.newDEWriter(0);
+    std::cerr << "+attachSource()!\n";
+    m_source->dumpManaged();
     sWriter.attachSource(*m_source);
+    m_source->dumpManaged();
+    std::cerr << "-attachSource()!\n";
 
     // 64 char string
     std::string zeros(64, '0');
@@ -260,7 +264,11 @@ void NitfFileWriter::write()
     ::nitf::ImageWriter iWriter = writer.newImageWriter(0);
     iWriter.attachSource(iSource);
 
+    std::cerr << "+write()!\n";
+    m_source->dumpManaged();
     writer.write();
+    m_source->dumpManaged();
+    std::cerr << "-write()!\n";
     output_io.close();
 }
 
